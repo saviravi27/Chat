@@ -1,7 +1,10 @@
 <html>
 	<head>
 		<style type="text/css">
-		#chat{height:300px}
+		#chat {height:300px}
+		#chatWrap {float: left; border: 1px #000 solid;}
+		#contentWrap{display: none}
+		#NickError{color: red; display: none}
 		</style>
 		<!--<link rel="stylesheet" type="text/css" href="/styles/mystyle.css">-->
 		<title>
@@ -9,11 +12,25 @@
 		</title>
 	</head>
 	<body>
-		<div id="chat"></div>
-		<form id="sendMessageform">
-			<input size="35" id="messageBox"></input>
-			<input type="submit"></input>
-		</form>
+		<div id="NickWrap">
+			<p><b>Enter a Username:</b></p>
+			<form id="NickForm">
+				<input size=35 id="Nicktextbox" />
+				<input type="submit" />
+			</form>
+			<div id="NickError" >That username already exists! Try again</div>
+		</div>
+		<div id="contentWrap">
+			<div id="chatWrap">
+				<div id="chat"></div>
+				<form id="sendMessageform">
+					<input size="35" id="messageBox"></input>
+					<input type="submit"></input>
+				</form>
+			</div>
+			<div id="users"></div>
+		</div>
+
 		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 		<script type="text/javascript">
@@ -22,6 +39,24 @@
 				var $Chat = $('#chat');
 				var $SendMessageForm = $('#sendMessageform');
 				var $messageBox = $('#messageBox');
+				var $nickform = $('#NickForm');
+				var $nickerror = $('#NickError');
+				var $nickmessagebox = $('#Nicktextbox');
+				var $userList = $('#users');
+
+				$nickform.submit(function(e){
+					e.preventDefault();
+					socket.emit('new user',$nickmessagebox.val(),function(data){
+						if(data){
+							$('#NickWrap').hide();
+							$('#contentWrap').show();
+						}
+						else{
+							$nickerror.show();
+						}
+					});
+					$nickmessagebox.val('');
+				});
 
 				$SendMessageForm.submit(function(e){
 					e.preventDefault();
@@ -30,8 +65,16 @@
 				});
 
 				socket.on('new msg', function(data){
-					$Chat.append(data + "</br>");
-				})
+					$Chat.append("<b>"+data.nick +":</b>" +data.msg + "</br>");
+				});
+
+				socket.on('usernames',function(data){
+					var html = '';
+					for (var i = 0; i < data.length; i++) {
+						html += data[i] + '</br>';
+					};
+					$userList.html(html);
+				});
 			});
 		</script>
 	</body>
