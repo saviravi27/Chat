@@ -5,6 +5,8 @@
 		#chatWrap {float: left; border: 1px #000 solid;}
 		#contentWrap{display: none}
 		#NickError{color: red; display: none}
+		.error{color: red;}
+		.whisper{color: gray; font-family: italic}
 		</style>
 		<!--<link rel="stylesheet" type="text/css" href="/styles/mystyle.css">-->
 		<title>
@@ -60,13 +62,21 @@
 
 				$SendMessageForm.submit(function(e){
 					e.preventDefault();
-					socket.emit('chat msg',$messageBox.val());
+					socket.emit('chat msg',$messageBox.val(),function(data){
+						$Chat.append("<span class='error'><b>"+data+ "</span></br>");
+					});
 					$messageBox.val('');
 				});
 
 				socket.on('new msg', function(data){
 					$Chat.append("<b>"+data.nick +":</b>" +data.msg + "</br>");
 				});
+
+				socket.on('Whisper', function(data){
+					$Chat.append("<span class='whisper'><b>"+data.nick +":</b>" +data.msg + "</span></br>");
+				});
+
+
 
 				socket.on('usernames',function(data){
 					var html = '';
