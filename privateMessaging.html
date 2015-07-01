@@ -4,29 +4,23 @@
 		#chat {height:300px}
 		#chatWrap {float: left; border: 1px #000 solid;}
 		#contentWrap{display: none}
-		#NickError{color: red; display: none}
-		.error{color: red;}
-		.whisper{color: gray; font-family: italic}
+		
 		</style>
-		<!--<link rel="stylesheet" type="text/css" href="/styles/mystyle.css">-->
-		<script type="text/javascript">
-		function myFunction(data) {
-			var myWindow = window.open("/privateMessaging.html", "MsgWindow", "width=200, height=100");
-		}
+		
+		<script>
+  			var query = window.location.search;
+  			// Skip the leading ?, which should always be there, 
+  			// but be careful anyway
+  			if (query.substring(0, 1) == '?') {
+    			query = query.substring(1);
+  			}
+		</script>
 		</script>
 		<title>
-			Chat application
+			Private messaging
 		</title>
 	</head>
 	<body>
-		<div id="NickWrap">
-			<p><b>Enter a Username:</b></p>
-			<form id="NickForm">
-				<input size=35 id="Nicktextbox" />
-				<input type="submit" />
-			</form>
-			<div id="NickError" >That username already exists! Try again</div>
-		</div>
 		<div id="contentWrap">
 			<div id="chatWrap">
 				<div id="chat"></div>
@@ -46,40 +40,8 @@
 				var $Chat = $('#chat');
 				var $SendMessageForm = $('#sendMessageform');
 				var $messageBox = $('#messageBox');
-				var $nickform = $('#NickForm');
-				var $nickerror = $('#NickError');
-				var $nickmessagebox = $('#Nicktextbox');
-				var $userList = $('#users');
 				
-$nickmessagebox.ready(function(){
-	
-	var guest = 'Guest';
-	socket.emit('get user', guest);
-});
-
-socket.on('get user result', function(data){
-					if(data)
-					{
-						//user can be added
-						$nickmessagebox.val(data);
-					}
-				});
-
-				$nickform.submit(function(e){
-					e.preventDefault();
-					
-					socket.emit('new user',$nickmessagebox.val(),function(data){
-						if(data){
-							$('#NickWrap').hide();
-							$('#contentWrap').show();
-							$userList.css("font-weight","Bold");
-						}
-						else{
-							$nickerror.show();
-						}
-					});
-					$nickmessagebox.val('');
-				});
+				var $userList = $('#users');
 
 				$SendMessageForm.submit(function(e){
 					e.preventDefault();
@@ -97,10 +59,8 @@ socket.on('get user result', function(data){
 					$Chat.append("<span class='whisper'><b>"+data.nick +":</b>" +data.msg + "</span></br>");
 				});
 
-
-
 				socket.on('usernames',function(data){
-					var html = '<ul id = "usrList"></br>';
+					var html = '<ul></br>';
 					for (var i = 0; i < data.length; i++) {
 						html += '<li id="listItem" ondblclick=myFunction(this)' + '>' + data[i] + '</li></br>';
 					};

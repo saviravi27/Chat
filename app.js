@@ -14,6 +14,11 @@ res.sendFile(__dirname + "/index.html");
 console.log('showing index.html');
 });
 
+app.get('/privateMessaging.html',function(req,res){
+res.sendFile(__dirname + "/privateMessaging.html");
+console.log('showing privateMessaging.html');
+});
+
 io.sockets.on('connection',function(socket){
 	console.log('connection established for socket: ');
 	//console.log('connection established for socket: ', socket);
@@ -30,8 +35,25 @@ io.sockets.on('connection',function(socket){
 		}
 	});
 
+	socket.on('get user',function(data){
+		// vary the unique names
+		var limitOfUniqueNames = 1000;
+		for(var i = 0; i<limitOfUniqueNames; i++)
+		{
+			name = data + i.toString();
+			if(name in users){
+				continue;			
+			} else{
+			console.log(name + ' user can be added');
+			socket.emit('get user result', name);
+			break;
+			}
+		}
+	});
+
 	function updateUserList(){
 		io.sockets.emit('usernames',Object.keys(users));
+		console.log(users);
 	}
 
 	socket.on('chat msg',function(data,callback){

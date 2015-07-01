@@ -1,0 +1,36 @@
+
+<html>
+<head>
+	        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<title></title>
+	<script type="text/javascript">
+	function getQuerystring(key)
+ 
+{
+ 
+
+ 
+ key = key.replace(/[\[]/,"\\\[").replace(/[\]]/,\\\]);
+ 
+ var regex = new RegExp("[\\?&]"+key+"=([^&#]*)");
+ 
+ var qs = regex.exec(window.location.href);
+ alert (qs);
+ if(qs == null)
+ 
+alert("SOme message");
+ 
+else alert(qs[1]);
+ 
+}
+
+	</script>
+</head>
+<body>
+	<script type="text/javascript">
+	var qryData = getQuerystring('qrstr1');
+	alert(qryData);
+	</script>
+</body>
+</html>
