@@ -87,7 +87,13 @@
 	position:relative;
 	top:1px;
 }
-
+.myLi:hover {cursor: hand; cursor: pointer;}
+			
+			
+			.myLi
+			{
+			padding-right: .6em;
+			}
 
 		</style>
 		<!--<link rel="stylesheet" type="text/css" href="/styles/mystyle.css">-->
@@ -196,7 +202,7 @@
 				var html = '<ul id = "usrList"></br>';
 				
 				for (var i = 0; i < keys.length; i++) {
-					var li = '<li id="listItem"  ondblclick=myPrivateMessaging(this)>';
+					var li = '<li id="listItem" class="myLi" onclick=myPrivateMessaging(this)>';
 					if(EmployeeName == keys[i])
 					{
 						li = '<li id="listItem" class="selected">';

@@ -107,6 +107,40 @@ io.sockets.on('connection',function(socket){
 			console.log('nick: '+socket.nickname+ '<br/>msg:'+data);
 	    }
 	});
+	
+	socket.on('private chat msg',function(data,callback){
+		console.log('data = ' +data);
+		var msg = data.trim();
+		console.log(msg);
+		if(msg.substr(0,3) ==='/w '){
+			msg = msg.substr(3);
+			var ind = msg.indexOf(' ');
+			if(ind != '-1'){
+				var name = msg.substring(0,ind);
+				console.log('name = ' +name);
+				var msg = msg.substring(ind+1);
+				console.log('msg = ' +msg);
+				console.log('socket.nickname = '+socket.nickname);
+				if(name in users){
+					users[name].emit('Whisper', {nick : name, msg : msg});
+					console.log('socket.nickname = '+users[name].nickname);
+					//socket.emit('socket info', users[name]);
+					console.log('whisper');
+					callback({error: 0,nick : name, msg : msg});
+				}
+				else{
+					callback('Error : Enter valid username');
+				}	
+			}
+			else{
+				callback('Error : Please enter a message to whisper');
+			}
+		}
+		else{
+			io.sockets.emit('new msg', {nick : socket.nickname, msg : msg});
+			console.log('nick: '+socket.nickname+ '<br/>msg:'+data);
+	    }
+	});
 
 	socket.on('disconnect',function(data){
 		if(!socket.nickname){
