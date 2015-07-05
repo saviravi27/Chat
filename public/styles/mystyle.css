@@ -1,0 +1,6 @@
+#chat {height:300px}
+#chatWrap {float: left; border: 1px #000 solid;}
+#contentWrap{display: none}
+#NickError{color: red; display: none}
+.error{color: red;}
+.whisper{color: gray; font-family: italic}

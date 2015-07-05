@@ -9,13 +9,15 @@ server.listen(3000);
 app.use(morgan('dev'));
 console.log("Chat server running on port 3000....");
 
+app.use(express.static(__dirname + '/public'));
+
 app.get('/',function(req,res){
-res.sendFile(__dirname + "/index.html");
+res.sendFile(__dirname + "public/index.html");
 console.log('showing index.html');
 });
 
 app.get('/privateMessaging.html',function(req,res){
-res.sendFile(__dirname + "/privateMessaging.html");
+res.sendFile(__dirname + "public/privateMessaging.html");
 console.log('showing privateMessaging.html');
 });
 
@@ -31,9 +33,26 @@ io.sockets.on('connection',function(socket){
 			callback(true);
 			socket.nickname = data;
 			users[socket.nickname] = socket;
+			//window.open('/index.html?name='+socket.nickname);
 			updateUserList();
 		}
 	});
+	
+	function updateUserList(){
+		var keys = Object.keys(users);
+		/* var values;
+		for (var i = 0; i < keys.length; i++) {
+			 values = users[keys[i]];
+		}
+		console.log(keys);
+		console.log(values); */
+		//socket.broadcast.emit('usernames', keys, values);
+		io.sockets.emit('usernames', keys);
+		//console.log(JSON);
+		//console.log(JSON.stringify(users));
+		//io.sockets.emit('usernames',users);
+		
+	}
 
 	socket.on('get user',function(data){
 		// vary the unique names
@@ -50,22 +69,29 @@ io.sockets.on('connection',function(socket){
 			}
 		}
 	});
-
-	function updateUserList(){
-		io.sockets.emit('usernames',Object.keys(users));
-		console.log(users);
-	}
-
+	
+	socket.on('count users',function(){
+		var count = Object.keys(users).length;
+		socket.emit('count users result', count);
+	});
+	
 	socket.on('chat msg',function(data,callback){
+		console.log('data = ' +data);
 		var msg = data.trim();
+		console.log(msg);
 		if(msg.substr(0,3) ==='/w '){
 			msg = msg.substr(3);
 			var ind = msg.indexOf(' ');
 			if(ind != '-1'){
 				var name = msg.substring(0,ind);
+				console.log('name = ' +name);
 				var msg = msg.substring(ind+1);
+				console.log('msg = ' +msg);
+				console.log('socket.nickname = '+socket.nickname);
 				if(name in users){
-					users[name].emit('Whisper', {nick : socket.nickname, msg : msg});
+					users[name].emit('Whisper', {nick : name, msg : msg});
+					console.log('socket.nickname = '+users[name].nickname);
+					//socket.emit('socket info', users[name]);
 					console.log('whisper');
 				}
 				else{
@@ -77,8 +103,8 @@ io.sockets.on('connection',function(socket){
 			}
 		}
 		else{
-		io.sockets.emit('new msg', {nick : socket.nickname, msg : msg});
-		console.log('nick: '+socket.nickname+ '<br/>msg:'+data);
+			io.sockets.emit('new msg', {nick : socket.nickname, msg : msg});
+			console.log('nick: '+socket.nickname+ '<br/>msg:'+data);
 	    }
 	});
 
