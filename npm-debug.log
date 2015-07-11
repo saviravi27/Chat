@@ -1,0 +1,40 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'D:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'D:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'view' ]
+2 info using npm@2.11.2
+3 info using node@v0.12.5
+4 silly mapToRegistry name chat
+5 silly mapToRegistry using default registry
+6 silly mapToRegistry registry https://registry.npmjs.org/
+7 silly mapToRegistry uri https://registry.npmjs.org/chat
+8 verbose request uri https://registry.npmjs.org/chat
+9 verbose request no auth needed
+10 info attempt registry request try #1 at 7:20:12 PM
+11 verbose request id 70e3264b1bf5014b
+12 http request GET https://registry.npmjs.org/chat
+13 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org
+14 info attempt registry request try #2 at 7:20:30 PM
+15 http request GET https://registry.npmjs.org/chat
+16 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org
+17 info attempt registry request try #3 at 7:21:30 PM
+18 http request GET https://registry.npmjs.org/chat
+19 verbose stack Error: getaddrinfo ENOTFOUND registry.npmjs.org
+19 verbose stack     at errnoException (dns.js:44:10)
+19 verbose stack     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:94:26)
+20 verbose cwd D:\Chat
+21 error Windows_NT 6.1.7601
+22 error argv "D:\\Program Files\\nodejs\\\\node.exe" "D:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "view"
+23 error node v0.12.5
+24 error npm  v2.11.2
+25 error code ENOTFOUND
+26 error errno ENOTFOUND
+27 error syscall getaddrinfo
+28 error network getaddrinfo ENOTFOUND registry.npmjs.org
+28 error network This is most likely not a problem with npm itself
+28 error network and is related to network connectivity.
+28 error network In most cases you are behind a proxy or have bad network settings.
+28 error network
+28 error network If you are behind a proxy, please make sure that the
+28 error network 'proxy' config is set properly.  See: 'npm help config'
+29 verbose exit [ 1, true ]

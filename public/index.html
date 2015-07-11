@@ -98,8 +98,18 @@
 		</style>
 		<!--<link rel="stylesheet" type="text/css" href="/styles/mystyle.css">-->
 		<script type="text/javascript">
+		var pmsg = {};
 		function myPrivateMessaging(data) {
-			var myWindow = window.open("/privateMessaging.html?name="+data.innerHTML, "MsgWindow", "width=400, height=350");
+			var name = data.innerHTML;
+			//var id = data.id;
+			//alert(id);
+			//var myWindow = window.open("/privateMessaging.html?name="+data.innerHTML, "MsgWindow", "width=400, height=350");
+			var msg = prompt("Please enter your message to " + name, "Hi " + name + "...");
+		    if (msg != null) {
+		        pmsg.data = '/w '+name+' ' + msg;
+		        pmsg.to = name;
+		        //alert(pmsg);
+		    }
 		}
 		</script>
 		<title>
@@ -200,17 +210,39 @@
 
 			socket.on('usernames',function(keys){
 				var html = '<ul id = "usrList"></br>';
-				
+				var li;
 				for (var i = 0; i < keys.length; i++) {
-					var li = '<li id="listItem" class="myLi" onclick=myPrivateMessaging(this)>';
 					if(EmployeeName == keys[i])
 					{
 						li = '<li id="listItem" class="selected">';
+					}
+					else
+					{
+						var idname = "listItem" + i;
+						li = '<li id='+idname+' class="myLi" onclick=myPrivateMessaging(this)>';
 					}
 					html += li +  keys[i] + '</li></br>';
 				};
 				html += '</ul></br>';
 				$userList.html(html);
+			});
+
+			$userList.on('click', function() {
+				if(pmsg != 'undefined')
+				{
+	  				socket.emit('private chat msg', pmsg.data, function(data){
+							if(data.error == 0)
+							{
+								var from = $("li#listItem.selected").innerHTML;
+								if(from != null)
+								$Chat.append("<span class='whisper'><b>"+ from+"private :</b>" +"msg sent to "+ pmsg.to + "</span></br>");
+								else
+								$Chat.append("<span class='whisper'><b>"+":</b>" +"msg sent to "+ pmsg.to + "</span></br>");
+							}
+							else
+								$Chat.append("<span class='error'><b>"+data+ "</span></br>");
+					});
+  				}
 			});
 		});
 		</script>
