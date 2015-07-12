@@ -109,6 +109,8 @@ io.sockets.on('connection',function(socket){
 	});
 	
 	socket.on('private chat msg',function(data,callback){
+		if(data != null)
+		{
 		console.log('data = ' +data);
 		var msg = data.trim();
 		console.log(msg);
@@ -140,6 +142,7 @@ io.sockets.on('connection',function(socket){
 			io.sockets.emit('new msg', {nick : socket.nickname, msg : msg});
 			console.log('nick: '+socket.nickname+ '<br/>msg:'+data);
 	    }
+	}
 	});
 
 	socket.on('disconnect',function(data){

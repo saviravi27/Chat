@@ -1,115 +1,48 @@
 <html>
 	<head>
-		<style type="text/css">
-		#chat {height:300px}
-		#chatWrap {float: left; border: 1px #000 solid;}
-		#contentWrap{display: none}
-		#NickError{color: red; display: none}
-		.error{color: red;}
-		.whisper{color: gray; font-family: italic}
-		.selected { color: Red; }
-		.myChatLoginButton {
-	-moz-box-shadow: 0px 0px 0px 2px #9fb4f2;
-	-webkit-box-shadow: 0px 0px 0px 2px #9fb4f2;
-	box-shadow: 0px 0px 0px 2px #9fb4f2;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #7892c2), color-stop(1, #476e9e));
-	background:-moz-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:-webkit-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:-o-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:-ms-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:linear-gradient(to bottom, #7892c2 5%, #476e9e 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#7892c2', endColorstr='#476e9e',GradientType=0);
-	background-color:#7892c2;
-	-moz-border-radius:10px;
-	-webkit-border-radius:10px;
-	border-radius:10px;
-	border:1px solid #4e6096;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:12px;
-	padding:4px 16px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #283966;
-}
-.myChatLoginButton:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #476e9e), color-stop(1, #7892c2));
-	background:-moz-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:-webkit-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:-o-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:-ms-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:linear-gradient(to bottom, #476e9e 5%, #7892c2 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#476e9e', endColorstr='#7892c2',GradientType=0);
-	background-color:#476e9e;
-}
-.myChatLoginButton:active {
-	position:relative;
-	top:1px;
-}
-
-.myChatSendButton {
-	-moz-box-shadow: 0px 0px 0px 2px #9fb4f2;
-	-webkit-box-shadow: 0px 0px 0px 2px #9fb4f2;
-	box-shadow: 0px 0px 0px 2px #9fb4f2;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #7892c2), color-stop(1, #476e9e));
-	background:-moz-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:-webkit-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:-o-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:-ms-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:linear-gradient(to bottom, #7892c2 5%, #476e9e 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#7892c2', endColorstr='#476e9e',GradientType=0);
-	background-color:#7892c2;
-	-moz-border-radius:10px;
-	-webkit-border-radius:10px;
-	border-radius:10px;
-	border:1px solid #4e6096;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:12px;
-	padding:4px 16px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #283966;
-}
-.myChatSendButton:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #476e9e), color-stop(1, #7892c2));
-	background:-moz-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:-webkit-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:-o-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:-ms-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:linear-gradient(to bottom, #476e9e 5%, #7892c2 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#476e9e', endColorstr='#7892c2',GradientType=0);
-	background-color:#476e9e;
-}
-.myChatSendButton:active {
-	position:relative;
-	top:1px;
-}
-.myLi:hover {cursor: hand; cursor: pointer;}
-			
-			
-			.myLi
-			{
-			padding-right: .6em;
-			}
-
-		</style>
-		<!--<link rel="stylesheet" type="text/css" href="/styles/mystyle.css">-->
+		<link href="./styles/mystyle.css" rel="stylesheet" type="text/css" media="screen" />
+		<link href="./styles/jquery.alerts.css" rel="stylesheet" type="text/css" media="screen" />
+		
+		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>
+		<script src="./js/jquery.alerts.js" type="text/javascript"></script>
 		<script type="text/javascript">
 		var pmsg = {};
 		function myPrivateMessaging(data) {
 			var name = data.innerHTML;
-			//var id = data.id;
-			//alert(id);
-			//var myWindow = window.open("/privateMessaging.html?name="+data.innerHTML, "MsgWindow", "width=400, height=350");
-			var msg = prompt("Please enter your message to " + name, "Hi " + name + "...");
-		    if (msg != null) {
+			jPrompt('Please enter your message to '+ name, "Hi " + name + "...", 'Private Messageing to '+name, function(msg) {
+			    if (msg != null) {
 		        pmsg.data = '/w '+name+' ' + msg;
 		        pmsg.to = name;
-		        //alert(pmsg);
+		        pmsg.msg = msg;
+		        //$('#users').click();
+
+		        if(pmsg != 'undefined')
+				{
+					if(socket != null || socket != 'undefined')
+					{
+		  				socket.emit('private chat msg', pmsg.data, function(data){
+								if(data.error == 0)
+								{
+									var from = $("li#listItem.selected").innerHTML;
+									if(from != null)
+									{
+										$('#chat').append("<span class='whisper'><b>"+ from+" :</b>" + pmsg.msg + "</span></br>");
+									}
+									else
+									{
+										from = "You"
+										$('#chat').append("<span class='whisper'><b>"+ from+" :</b>" + pmsg.msg + "</span></br>");
+									}
+								}
+								else
+									$('#chat').append("<span class='error'><b>"+data+ "</span></br>");
+						});
+		  			}
+  				}
 		    }
+			});
 		}
 		</script>
 		<title>
@@ -127,7 +60,7 @@
 		</div>
 		<div id="contentWrap">
 			<div id="chatWrap">
-				<div id="chat"></div>
+				<div id="chat" style="overflow-y: scroll;" class="wordwrap"></div>
 				<form id="sendMessageform">
 					<input size="35" id="messageBox"></input>
 					<input type="submit" value="send" class = "myChatSendButton"></input>
@@ -136,11 +69,11 @@
 			<div id="users"><h2>User List</h2></div>
 		</div>
 
-		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		
 		<script type="text/javascript">
+		var socket;
 		jQuery(function($){
-			var socket = io.connect();
+			socket = io.connect();
 			var $Chat = $('#chat');
 			var $SendMessageForm = $('#sendMessageform');
 			var $messageBox = $('#messageBox');
@@ -194,10 +127,14 @@
 
 			$SendMessageForm.submit(function(e){
 				e.preventDefault();
-				socket.emit('chat msg',$messageBox.val(),function(data){
-					$Chat.append("<span class='error'><b>"+data+ "</span></br>");
-				});
-				$messageBox.val('');
+				var msg = $messageBox.val();
+				if(msg != '')
+				{
+					socket.emit('chat msg',$messageBox.val(),function(data){
+						$Chat.append("<span class='error'><b>"+data+ "</span></br>");
+					});
+					$messageBox.val('');
+				}
 			});
 
 			socket.on('new msg', function(data){
@@ -235,9 +172,14 @@
 							{
 								var from = $("li#listItem.selected").innerHTML;
 								if(from != null)
-								$Chat.append("<span class='whisper'><b>"+ from+"private :</b>" +"msg sent to "+ pmsg.to + "</span></br>");
+								{
+									$Chat.append("<span class='whisper'><b>"+ from+" :</b>" + pmsg.msg + "</span></br>");
+								}
 								else
-								$Chat.append("<span class='whisper'><b>"+":</b>" +"msg sent to "+ pmsg.to + "</span></br>");
+								{
+									from = "You"
+									$Chat.append("<span class='whisper'><b>"+ from+" :</b>" + pmsg.msg + "</span></br>");
+								}
 							}
 							else
 								$Chat.append("<span class='error'><b>"+data+ "</span></br>");
