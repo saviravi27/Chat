@@ -8,18 +8,24 @@
 		<script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>
 		<script src="./js/jquery.alerts.js" type="text/javascript"></script>
 		<script src="./js/index.js" type="text/javascript"></script>
+		<!-- 1. Load platform support before any code that touches the DOM. -->
+    	<script src="./bower_components/webcomponentsjs/webcomponents.min.js"></script>
+    	<!-- 2. Load the component using an HTML Import -->
+    	<link rel="import" href="elements/EnterUserName-element.html">
+    	<link rel="import" href="elements/error-element.html">
+    	<link rel="import" href="elements/userList-element.html">
 		<title>
 			Chat application
 		</title>
 	</head>
 	<body>
 		<div id="NickWrap">
-			<p><b>Enter a Username:</b></p>
+			<EnterUserName-element></EnterUserName-element>
 			<form id="NickForm">
 				<input size=35 id="Nicktextbox" />
 				<input type="submit" value="login" class="myChatLoginButton"/>
 			</form>
-			<div id="NickError" >That username already exists! Try again</div>
+			<div id="NickError" ><error-element></error-element></div>
 		</div>
 		<div id="contentWrap">
 			<div id="chatWrap">
@@ -29,7 +35,8 @@
 					<input type="submit" value="send" class = "myChatSendButton"></input>
 				</form>
 			</div>
-			<div id="users"><h2>User List</h2></div>
+			<userList-element></userList-element>
+			<div id="users"></div>
 		</div>
 
 		
