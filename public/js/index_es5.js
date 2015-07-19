@@ -1,5 +1,4 @@
 'use strict';
-
 var pmsg = {};
 function myPrivateMessaging(data) {
     var name = getName(data);
@@ -9,10 +8,15 @@ function myPrivateMessaging(data) {
     });
 }
 function getName(data) {
-    return data.innerHTML;
+    if (!isUndefinedOrNullOrEmpty(data)) {
+        return data.innerHTML;
+    } else {
+        throw new Error('Element is empty');
+    }
 }
 function getPrivateMessageFormat(msg, name) {
-    if (msg != null) {
+    pmsg = {};
+    if (!isUndefinedOrNullOrEmpty(msg) && !isUndefinedOrNullOrEmpty(name)) {
         pmsg.data = '/w ' + name + ' ' + msg;
         pmsg.to = name;
         pmsg.msg = msg;
@@ -20,7 +24,7 @@ function getPrivateMessageFormat(msg, name) {
     return pmsg;
 }
 function sendSocketMessage(pmsg) {
-    if (checkUndefinedOrNull(pmsg) && checkUndefinedOrNull(socket)) {
+    if (!isUndefinedOrNullOrEmpty(pmsg) && !isUndefinedOrNullOrEmpty(socket)) {
         socket.emit('private chat msg', pmsg.data, function (data) {
             if (data.error == 0) {
                 var from = $('li#listItem.selected').innerHTML;
@@ -36,8 +40,8 @@ function sendSocketMessage(pmsg) {
         });
     }
 }
-function checkUndefinedOrNull(data) {
-    if (data != undefined || data != null) {
+function isUndefinedOrNullOrEmpty(data) {
+    if (data == undefined || data == null || data == '') {
         return true;
     } else {
         return false;
