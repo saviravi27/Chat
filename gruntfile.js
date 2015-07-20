@@ -10,7 +10,8 @@ module.exports = function(grunt) {
     }
   });
   grunt.loadNpmTasks('grunt-karma');
-  grunt.registerTask('default', ['karma:unit']);
+  grunt.registerTask('hello', ['karma:unit']);
+};
 
 //   grunt.initConfig({
 //   "babel": {
@@ -26,4 +27,3 @@ module.exports = function(grunt) {
 // });
 
 // grunt.registerTask("babel", ["babel"]);
-};

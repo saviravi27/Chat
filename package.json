@@ -1,24 +1,23 @@
 {
-	"name":"chat",
-	"version":"0.0.1",
-  	"description": "Chat application using webcomponents/polymer, babel/es6, jasmine, karma etc...",
-	"private":"true",
-	"dependencies":{
-		"express":"4.13.0",
-		"socket.io":"1.3.5",
-		"morgan":"1.6.0",
-		"grunt": "^0.4.5",
-    	"grunt-cli": "^0.1.13",
-	    "grunt-karma": "^0.11.2",
-    	"jasmine": "^2.3.1",
-	    "jasmine-core": "^2.3.4",
-	    "karma": "^0.12.37",
-	    "karma-chrome-launcher": "^0.2.0",
-	    "karma-jasmine": "^0.3.6"
+  "name": "chat",
+  "version": "0.0.1",
+  "description": "Chat application using webcomponents/polymer, babel/es6, jasmine, karma etc...",
+  "private": "true",
+  "dependencies": {
+    "express": "4.13.0",
+    "grunt": "^0.4.5",
+    "grunt-karma": "^0.11.2",
+    "jasmine": "^2.3.1",
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.12.37",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-jasmine": "^0.3.6",
+    "morgan": "1.6.0",
+    "socket.io": "1.3.5"
   },
   "author": "savi.mdr@gmail.com",
   "license": "ISC",
   "devDependencies": {
     "grunt-babel": "^5.0.1"
-	}
+  }
 }
