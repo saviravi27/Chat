@@ -7,23 +7,29 @@ module.exports = function(grunt) {
           singleRun: false
         }
       }
-    }
+    },
+
+    babel: {
+        options: {
+            sourceMap: true
+        },
+        dist: {
+            files: {
+                'public/js/indexes5.js': 'public/js/index_es6.js'
+            }
+        }
+    },
+
   });
   grunt.loadNpmTasks('grunt-karma');
-  grunt.registerTask('hello', ['karma:unit']);
+  grunt.loadNpmTasks('grunt-babel');
+  grunt.registerTask('testing', ['karma:unit']);
+  grunt.registerTask('babelTranspiler', ['babel']);
+  grunt.registerTask('server', 'Start server', function() {
+       var app = require('./app.js');
+    });
+
+
+  grunt.registerTask('default',['server','babel','karma:unit']);
+
 };
-
-//   grunt.initConfig({
-//   "babel": {
-//     options: {
-//       sourceMap: true
-//     },
-//     dist: {
-//       files: {
-//         "dist/helloWorld.js": "src/helloWorld.js"
-//       }
-//     }
-//   }
-// });
-
-// grunt.registerTask("babel", ["babel"]);
